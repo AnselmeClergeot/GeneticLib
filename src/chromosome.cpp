@@ -1,21 +1,51 @@
 #include "chromosome.h"
+#include "bitgene.h"
 #include <cassert>
 
-template<typename T>
-Chromosome<T>::Chromosome(const int length) : m_length {length}, m_genes {}
+Chromosome::Chromosome(GeneType type, const unsigned int length) :  m_length(length), m_genes(), m_fitness(0)
 {
-
+    for(unsigned int i {0}; i < length; i++)
+    {
+        switch(type)
+        {
+            case Bit :
+                m_genes.push_back(new BitGene());
+            break;
+        }
+    }
 }
 
-template<typename T>
-int Chromosome<T>::get_length() const
+void Chromosome::set_mutate_probability(const double probability)
+{
+    for(Gene *gene : m_genes)
+    {
+        gene->set_mutate_probability(probability);
+    }
+}
+
+Gene *Chromosome::get_gene_at(const unsigned int position)
+{
+    assert(position < m_length);
+    return m_genes[position];
+}
+
+unsigned int Chromosome::get_length() const
 {
     return m_length;
 }
 
-template<typename T>
-T Chromosome<T>::get_gene_at(const int pos)
+void Chromosome::set_fitness(const double fitness)
 {
-    assert(pos >= 0 && pos < m_length);
-    return m_genes[pos];
+    m_fitness = fitness;
+}
+
+double Chromosome::get_fitness() const
+{
+    return m_fitness;
+}
+
+void Chromosome::mutate()
+{
+    for(Gene *gene : m_genes)
+        gene->mutate();
 }
