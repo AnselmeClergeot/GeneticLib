@@ -12,7 +12,7 @@ BitGene::BitGene() : Gene()
 
 BitGene::BitGene(const double mutate_probability) : Gene(mutate_probability)
 {
-    if(RandomGenerator::get_random_real_between(0, 1) < 0.5)
+    if(RandomGenerator::get_random_real_between(0, 1) < mutate_probability)
         m_value = true;
     else
         m_value = false;
