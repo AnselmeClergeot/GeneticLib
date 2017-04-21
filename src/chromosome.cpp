@@ -4,7 +4,7 @@
 #include <cassert>
 #include <iostream>
 
-Chromosome::Chromosome(GeneType type, const unsigned int length) :  m_length(length), m_genes(), m_fitness(0)
+Chromosome::Chromosome(GeneType type, const unsigned int length) :  m_length(length), m_genes(), m_fitness(0), m_gene_type(type)
 {
     for(unsigned int i {0}; i < length; i++)
     {
@@ -24,6 +24,17 @@ void Chromosome::set_mutate_probability(const double probability)
         gene->set_mutate_probability(probability);
     }
 }
+
+void Chromosome::set_gene_at(const unsigned int pos, Gene *gene)
+{
+    switch(m_gene_type)
+    {
+        case Bit:
+            m_genes[pos] = new BitGene(dynamic_cast<BitGene *>(gene));
+        break;
+    }
+}
+
 
 Gene *Chromosome::get_gene_at(const unsigned int position)
 {
@@ -67,3 +78,16 @@ void Chromosome::mutate(const unsigned int number_of_gene)
     for(Gene *gene : to_mutate)
         gene->mutate();
 }
+
+ GeneType Chromosome::get_gene_type() const
+ {
+     return m_gene_type;
+ }
+
+ void Chromosome::describe()
+ {
+     for(Gene *g : m_genes)
+     {
+         std::cout << dynamic_cast<BitGene *>(g)->get_value();
+     }
+ }

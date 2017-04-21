@@ -1,22 +1,26 @@
 #include <iostream>
-#include "geneticsolver.h"
-#include "bitgene.h"
+#include "crossoverfunctions.h"
+#include "randomgenerator.h"
+
 int main()
 {
-    GeneticSolver solver(GeneType::Bit);
+    RandomGenerator::initialize();
 
-    solver.set_chromosome_length(8);
-    solver.set_population_size(15);
-    solver.set_mutate_probability(0.05);
-    solver.set_mutated_gene_number(solver.get_chromosome_length());
+    Chromosome a(Bit, 8), b(Bit, 8);
 
-    solver.prepare_first_population();
+    a.describe();
+    std::cout << std::endl;
+    b.describe();
 
-    solver.do_mutations();
+    std::vector<Chromosome> children(Crossovers::uniform_crossover(a, b));
 
-    //Ready to do generations
+    std::cout << "Children : " << std::endl;
 
-    std::cout << "Population size : " << solver.get_population_size() << std::endl;
+    for(Chromosome c : children)
+    {
+        c.describe();
+        std::cout << std::endl;
+    }
 
     return 0;
 }
