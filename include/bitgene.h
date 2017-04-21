@@ -8,6 +8,9 @@ public:
     BitGene();
 
     BitGene(const double mutate_probability);
+    BitGene(const BitGene *other);
+
+    bool get_value() const;
 
     virtual void mutate();
 

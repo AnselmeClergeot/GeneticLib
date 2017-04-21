@@ -1,6 +1,6 @@
 #include <iostream>
 #include "geneticsolver.h"
-
+#include "bitgene.h"
 int main()
 {
     GeneticSolver solver(GeneType::Bit);

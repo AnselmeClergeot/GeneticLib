@@ -7,6 +7,7 @@ class Gene
 public:
     Gene();
     Gene(const double mutate_probability);
+    Gene(const Gene *other);
 
     virtual void mutate() = 0;
 

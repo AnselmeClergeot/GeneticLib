@@ -7,8 +7,13 @@ BitGene::BitGene() : Gene()
 
 BitGene::BitGene(const double mutate_probability) : Gene(mutate_probability)
 {
+
 }
 
+BitGene::BitGene(const BitGene *other) : Gene(other), m_value(other->get_value())
+{
+
+}
 
 
 void BitGene::mutate()
@@ -17,4 +22,9 @@ void BitGene::mutate()
     {
         m_value = !m_value;
     }
+}
+
+bool BitGene::get_value() const
+{
+    return m_value;
 }
