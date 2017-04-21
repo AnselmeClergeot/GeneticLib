@@ -34,4 +34,10 @@ private:
     double m_fitness;
 };
 
+class SolutionFitnessCompare
+{
+public:
+    bool operator()(const Chromosome &lhs, const Chromosome &rhs) const;
+};
+
 #endif // CHROMOSOME_H

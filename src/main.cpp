@@ -1,26 +1,41 @@
 #include <iostream>
-#include "crossoverfunctions.h"
-#include "randomgenerator.h"
+#include "geneticsolver.h"
+#include "chromosome.h"
+#include "bitgene.h"
+
+double get_fitness_of(Chromosome c)
+{
+    double sum {0};
+
+    for(unsigned int i {0}; i < c.get_length(); i++)
+    {
+        sum+=dynamic_cast<BitGene *>(c.get_gene_at(i))->get_value();
+    }
+
+    return 9-abs(sum - 9);
+}
 
 int main()
 {
-    RandomGenerator::initialize();
+    GeneticSolver solver(GeneType::Bit);
+    solver.set_chromosome_length(16);
+    solver.set_population_size(15);
+    solver.set_mutated_gene_number(solver.get_chromosome_length());
+    solver.set_mutate_probability(0.05);
+    solver.set_number_of_parents_selected(2);
+    solver.set_fitness_function(get_fitness_of);
 
-    Chromosome a(Bit, 8), b(Bit, 8);
 
-    a.describe();
-    std::cout << std::endl;
-    b.describe();
+    solver.prepare_first_population();
 
-    std::vector<Chromosome> children(Crossovers::uniform_crossover(a, b));
+    const unsigned int GENERATIONS_NUMBER { 50000 };
 
-    std::cout << "Children : " << std::endl;
-
-    for(Chromosome c : children)
+    for(int i {0}; i < GENERATIONS_NUMBER; i++)
     {
-        c.describe();
-        std::cout << std::endl;
+        solver.go_to_next_generation();
     }
+
+    solver.get_best_solution().describe();
 
     return 0;
 }

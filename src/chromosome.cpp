@@ -4,6 +4,11 @@
 #include <cassert>
 #include <iostream>
 
+bool SolutionFitnessCompare::operator()(const Chromosome &lhs, const Chromosome &rhs) const
+{
+    return lhs.get_fitness() > rhs.get_fitness();
+}
+
 Chromosome::Chromosome(GeneType type, const unsigned int length) :  m_length(length), m_genes(), m_fitness(0), m_gene_type(type)
 {
     for(unsigned int i {0}; i < length; i++)
@@ -59,16 +64,19 @@ double Chromosome::get_fitness() const
 
 void Chromosome::mutate(const unsigned int number_of_gene)
 {
-    std::vector<Gene *> to_mutate {};
+    std::vector<Gene *> to_mutate;
 
-    std::vector<unsigned int> possible_positions {};
+    std::vector<unsigned int> possible_positions;
 
     for(unsigned int i {0}; i < m_length; i++)
         possible_positions.emplace_back(i);
 
     for(unsigned int i {0}; i < number_of_gene; i++)
     {
-        int pos_in_array {static_cast<int>(RandomGenerator::get_random_real_between(0, possible_positions.size()))};
+        int pos_in_array {static_cast<int>(RandomGenerator::get_random_real_between(0, possible_positions.size()-1))};
+
+        assert(pos_in_array < possible_positions.size());
+        assert(possible_positions[pos_in_array] < m_genes.size());
 
         to_mutate.push_back(m_genes[possible_positions[pos_in_array]]);
 
