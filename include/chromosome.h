@@ -3,11 +3,6 @@
 #include <vector>
 #include "gene.h"
 
-enum GeneType
-{
-    Bit
-};
-
 class Chromosome
 {
 public:
@@ -22,7 +17,7 @@ public:
     void set_fitness(const double fitness);
     double get_fitness() const;
 
-    void mutate();
+    void mutate(const unsigned int number_of_gene);
 
 private:
     unsigned int m_length;

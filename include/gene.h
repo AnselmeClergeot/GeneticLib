@@ -1,6 +1,6 @@
 #ifndef GENE_H
 #define GENE_H
-
+#include "enumerations.h"
 
 class Gene
 {
@@ -12,6 +12,8 @@ public:
 
     void set_mutate_probability(const double probability);
     double get_mutate_probability() const;
+
+
 
 protected:
     double m_mutate_probability;
