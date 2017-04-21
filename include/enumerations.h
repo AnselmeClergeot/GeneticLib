@@ -6,5 +6,10 @@ enum GeneType
     Bit
 };
 
+enum CrossoverMode
+{
+    SinglePoint, TwoPoints, Uniform
+};
+
 
 #endif // ENUMERATIONS_H

@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <assert.h>
 
-GeneticSolver::GeneticSolver(const GeneType gene_type) : m_gene_type(gene_type), m_population(), m_population_size(0), m_chromosome_length(0), m_mutated_gene_number(1), m_fitness_function_pointer(nullptr), m_number_of_parents(0), m_parents(), m_children()
+GeneticSolver::GeneticSolver(const GeneType gene_type) : m_gene_type(gene_type), m_population(), m_population_size(0), m_chromosome_length(0), m_mutated_gene_number(1), m_fitness_function_pointer(nullptr), m_number_of_parents(0), m_parents(), m_children(), m_crossover_mode(SinglePoint), m_already_generated(false)
 {
   RandomGenerator::initialize();
 }
@@ -80,8 +80,24 @@ unsigned int GeneticSolver::get_number_of_parents_selected() const
     return m_number_of_parents;
 }
 
+void GeneticSolver::set_crossover_mode(CrossoverMode mode)
+{
+    m_crossover_mode = mode;
+}
+
+CrossoverMode GeneticSolver::get_crossover_mode() const
+{
+    return m_crossover_mode;
+}
+
 void GeneticSolver::go_to_next_generation()
 {
+    if(!m_already_generated)
+    {
+        m_already_generated = true;
+        prepare_first_population();
+    }
+
     calculate_all_fitnesses();
     order_solutions();
     select_parents();
@@ -134,7 +150,22 @@ void GeneticSolver::mate_parents()
     {
         for(unsigned int j {i+1}; j < m_number_of_parents; j++)
         {
-            std::vector<Chromosome> children(Crossovers::uniform_crossover(m_parents[i], m_parents[j]));
+            std::vector<Chromosome> children;
+
+            switch(m_crossover_mode)
+            {
+                case Uniform:
+                    children = Crossovers::uniform_crossover(m_population[i], m_population[j]);
+                break;
+
+                case SinglePoint:
+                    children = Crossovers::single_point_crossover(m_population[i], m_population[j]);
+                break;
+
+                case TwoPoints:
+                    children = Crossovers::two_points_crossover(m_population[i], m_population[j]);
+                break;
+            }
 
             for(Chromosome c : children)
                 m_children.push_back(c);
@@ -164,5 +195,6 @@ Chromosome GeneticSolver::get_best_solution()
 
 std::vector<Chromosome> GeneticSolver::get_all_solutions()
 {
+    order_solutions();
     return m_population;
 }

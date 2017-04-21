@@ -23,6 +23,9 @@ public:
     void set_number_of_parents_selected(const unsigned int number_of_parents);
     unsigned int get_number_of_parents_selected() const;
 
+    void set_crossover_mode(CrossoverMode mode);
+    CrossoverMode get_crossover_mode() const;
+
     void set_fitness_function(double (*function)(Chromosome));
 
     void prepare_first_population();
@@ -35,6 +38,7 @@ public:
 
 private:
     GeneType m_gene_type;
+    CrossoverMode m_crossover_mode;
     unsigned int m_population_size, m_chromosome_length, m_number_of_parents;
 
     std::vector<Chromosome> m_population;
@@ -46,6 +50,8 @@ private:
     double m_mutate_probability;
 
     double (*m_fitness_function_pointer)(Chromosome);
+
+    bool m_already_generated;
 
     //FUNCTIONS
 
