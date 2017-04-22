@@ -10,8 +10,7 @@ public:
 
     virtual void mutate() = 0;
 
-    void set_mutate_probability(const double probability);
-    double get_mutate_probability() const;
+     void update_mutate_probability(const double probability);
 
 
 

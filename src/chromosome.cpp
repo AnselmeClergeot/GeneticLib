@@ -9,7 +9,7 @@ bool SolutionFitnessCompare::operator()(const Chromosome &lhs, const Chromosome 
     return lhs.get_fitness() > rhs.get_fitness();
 }
 
-Chromosome::Chromosome(GeneType type, const unsigned int length, const double mutate_probability) :  m_length(length), m_genes(), m_fitness(0), m_gene_type(type)
+Chromosome::Chromosome(GeneType type, const unsigned int length, const double mutate_probability) :  m_length(length), m_genes(), m_gene_type(type), m_fitness(0), m_mutate_probability(mutate_probability)
 {
     for(unsigned int i {0}; i < length; i++)
     {
@@ -24,6 +24,7 @@ Chromosome::Chromosome(GeneType type, const unsigned int length, const double mu
 
 void Chromosome::set_gene_at(const unsigned int pos, Gene *gene)
 {
+    delete m_genes[pos];
     switch(m_gene_type)
     {
         case Bit:
@@ -67,9 +68,6 @@ void Chromosome::mutate(const unsigned int number_of_gene)
     {
         int pos_in_array {static_cast<int>(RandomGenerator::get_random_real_between(0, possible_positions.size()-1))};
 
-        assert(pos_in_array < possible_positions.size());
-        assert(possible_positions[pos_in_array] < m_genes.size());
-
         to_mutate.push_back(m_genes[possible_positions[pos_in_array]]);
 
         possible_positions.erase(possible_positions.begin() + pos_in_array);
@@ -95,4 +93,12 @@ void Chromosome::mutate(const unsigned int number_of_gene)
  double Chromosome::get_mutate_probability()
  {
      return m_mutate_probability;
+ }
+
+ void Chromosome::update_mutate_probability(const double probability)
+ {
+     m_mutate_probability = probability;
+
+     for(Gene *g : m_genes)
+         g->update_mutate_probability(probability);
  }

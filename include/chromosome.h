@@ -18,6 +18,8 @@ public:
 
     void mutate(const unsigned int number_of_gene);
 
+    void update_mutate_probability(const double probability);
+
     GeneType get_gene_type() const;
 
     void describe();

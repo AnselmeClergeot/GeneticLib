@@ -4,8 +4,9 @@
 #include "crossoverfunctions.h"
 #include <algorithm>
 #include <assert.h>
+#include <iostream>
 
-GeneticSolver::GeneticSolver(const GeneType gene_type) : m_gene_type(gene_type), m_population(), m_population_size(0), m_chromosome_length(0), m_mutated_gene_number(1), m_fitness_function_pointer(nullptr), m_number_of_parents(0), m_parents(), m_children(), m_crossover_mode(SinglePoint), m_already_generated(false)
+GeneticSolver::GeneticSolver(const GeneType gene_type) : m_gene_type(gene_type), m_crossover_mode(SinglePoint),  m_population_size(0), m_chromosome_length(0), m_number_of_parents(0), m_population(), m_parents(), m_children(), m_mutated_gene_number(1), m_mutate_probability(0), m_fitness_function_pointer(nullptr), m_already_generated(false)
 {
   RandomGenerator::initialize();
 }
@@ -46,6 +47,9 @@ void GeneticSolver::prepare_first_population()
 void GeneticSolver::set_mutate_probability(const double probability)
 {
     m_mutate_probability = probability;
+
+    for(Chromosome &c: m_population)
+        c.update_mutate_probability(probability);
 }
 
 double GeneticSolver::get_mutate_probability() const
@@ -178,7 +182,6 @@ void GeneticSolver::insert_children()
 {
     for(unsigned int i {0}; i < m_children.size(); i++)
     {
-        assert(m_population_size - i - 1 >= 0 && m_population_size - i - 1 < m_population_size);
 
         m_population[m_population_size - i - 1] = m_children[i];
     }
