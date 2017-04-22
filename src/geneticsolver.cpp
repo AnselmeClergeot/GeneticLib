@@ -39,8 +39,7 @@ void GeneticSolver::prepare_first_population()
 {
     for(unsigned int i {0}; i < m_population_size; i++)
     {
-        m_population.emplace_back(Chromosome(m_gene_type, m_chromosome_length));
-        m_population[i].set_mutate_probability(m_mutate_probability);
+        m_population.emplace_back(Chromosome(m_gene_type, m_chromosome_length, m_mutate_probability));
     }
 }
 

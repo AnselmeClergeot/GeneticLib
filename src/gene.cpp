@@ -1,10 +1,5 @@
 #include "gene.h"
 
-Gene::Gene() : m_mutate_probability(0.05)
-{
-
-}
-
 Gene::Gene(const double mutate_probability) : m_mutate_probability(mutate_probability)
 {
 

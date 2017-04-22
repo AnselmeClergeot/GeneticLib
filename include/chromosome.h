@@ -6,9 +6,7 @@
 class Chromosome
 {
 public:
-    Chromosome(GeneType type, const unsigned int length);
-
-    void set_mutate_probability(const double probability);
+    Chromosome(GeneType type, const unsigned int length, const double mutate_probability);
 
     void set_gene_at(const unsigned int pos, Gene *gene);
     Gene *get_gene_at(const unsigned int position);
@@ -24,6 +22,8 @@ public:
 
     void describe();
 
+    double get_mutate_probability();
+
 
 private:
     unsigned int m_length;
@@ -31,7 +31,7 @@ private:
 
     GeneType m_gene_type;
 
-    double m_fitness;
+    double m_fitness, m_mutate_probability;
 };
 
 class SolutionFitnessCompare

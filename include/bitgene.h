@@ -5,7 +5,6 @@
 class BitGene : public Gene
 {
 public:
-    BitGene();
 
     BitGene(const double mutate_probability);
     BitGene(const BitGene *other);

@@ -5,7 +5,6 @@
 class Gene
 {
 public:
-    Gene();
     Gene(const double mutate_probability);
     Gene(const Gene *other);
 

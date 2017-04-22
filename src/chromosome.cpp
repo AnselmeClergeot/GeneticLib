@@ -9,24 +9,16 @@ bool SolutionFitnessCompare::operator()(const Chromosome &lhs, const Chromosome 
     return lhs.get_fitness() > rhs.get_fitness();
 }
 
-Chromosome::Chromosome(GeneType type, const unsigned int length) :  m_length(length), m_genes(), m_fitness(0), m_gene_type(type)
+Chromosome::Chromosome(GeneType type, const unsigned int length, const double mutate_probability) :  m_length(length), m_genes(), m_fitness(0), m_gene_type(type)
 {
     for(unsigned int i {0}; i < length; i++)
     {
         switch(type)
         {
             case Bit :
-                m_genes.push_back(new BitGene());
+                m_genes.push_back(new BitGene(mutate_probability));
             break;
         }
-    }
-}
-
-void Chromosome::set_mutate_probability(const double probability)
-{
-    for(Gene *gene : m_genes)
-    {
-        gene->set_mutate_probability(probability);
     }
 }
 
@@ -98,4 +90,9 @@ void Chromosome::mutate(const unsigned int number_of_gene)
      {
          std::cout << dynamic_cast<BitGene *>(g)->get_value();
      }
+ }
+
+ double Chromosome::get_mutate_probability()
+ {
+     return m_mutate_probability;
  }

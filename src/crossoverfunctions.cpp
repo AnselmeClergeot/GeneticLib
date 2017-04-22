@@ -8,8 +8,8 @@ namespace Crossovers
 std::vector<Chromosome> single_point_crossover(Chromosome lhs, Chromosome rhs)
 {
     std::vector<Chromosome> children;
-    children.emplace_back(Chromosome(lhs.get_gene_type(), lhs.get_length()));
-    children.emplace_back(Chromosome(lhs.get_gene_type(), lhs.get_length()));
+    children.emplace_back(Chromosome(lhs.get_gene_type(), lhs.get_length(), lhs.get_mutate_probability()));
+    children.emplace_back(Chromosome(lhs.get_gene_type(), lhs.get_length(), lhs.get_mutate_probability()));
 
     unsigned int point { static_cast<unsigned int>(RandomGenerator::get_random_real_between(0, lhs.get_length()-1)) };
 
@@ -32,8 +32,8 @@ std::vector<Chromosome> single_point_crossover(Chromosome lhs, Chromosome rhs)
 std::vector<Chromosome> two_points_crossover(Chromosome lhs, Chromosome rhs)
 {
     std::vector<Chromosome> children;
-    children.emplace_back(Chromosome(lhs.get_gene_type(), lhs.get_length()));
-    children.emplace_back(Chromosome(lhs.get_gene_type(), lhs.get_length()));
+    children.emplace_back(Chromosome(lhs.get_gene_type(), lhs.get_length(), lhs.get_mutate_probability()));
+    children.emplace_back(Chromosome(lhs.get_gene_type(), lhs.get_length(), lhs.get_mutate_probability()));
 
     unsigned int point_1 { static_cast<unsigned int>(RandomGenerator::get_random_real_between(0, lhs.get_length()-2)) };
 
@@ -58,8 +58,8 @@ std::vector<Chromosome> two_points_crossover(Chromosome lhs, Chromosome rhs)
 std::vector<Chromosome> uniform_crossover(Chromosome lhs, Chromosome rhs)
 {
     std::vector<Chromosome> children;
-    children.emplace_back(Chromosome(lhs.get_gene_type(), lhs.get_length()));
-    children.emplace_back(Chromosome(lhs.get_gene_type(), lhs.get_length()));
+    children.emplace_back(Chromosome(lhs.get_gene_type(), lhs.get_length(), lhs.get_mutate_probability()));
+    children.emplace_back(Chromosome(lhs.get_gene_type(), lhs.get_length(), lhs.get_mutate_probability()));
 
     for(unsigned int i {0}; i < lhs.get_length(); i++)
     {
